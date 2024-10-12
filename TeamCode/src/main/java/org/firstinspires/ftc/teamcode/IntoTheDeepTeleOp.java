@@ -111,7 +111,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
 
         // Initialize the IMU (Inertia Measurement Unit), used to detect the orientation of the robot
-        // for Field-Oriented driving
+        // for Field-Oriented driving :3
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
         //todo: remount the control hub. this orientation is temporary
