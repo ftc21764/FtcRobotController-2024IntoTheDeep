@@ -1,0 +1,7 @@
+todo: make more detailed later
+
+Motor Port | Motor name
+0          | "right_driveF"
+1          | "right_driveB"
+2          | "left_driveF"
+3          | "left_driveB"
