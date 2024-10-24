@@ -331,20 +331,20 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
             backLeftDrive.setTargetPosition(leftTargetB);
             frontRightDrive.setTargetPosition(rightTargetF);
             backRightDrive.setTargetPosition(rightTargetB);
-            telemetry.addData("driveStraight", "opModeIsActive");
-            telemetry.addData("targetPositions", "%d : %d : %d : %d", leftTargetF, leftTargetB, rightTargetF, rightTargetB);
-            telemetry.addData("move counts:", moveCounts);
-            telemetry.update();
+//            telemetry.addData("driveStraight", "opModeIsActive");
+//            telemetry.addData("targetPositions", "%d : %d : %d : %d", leftTargetF, leftTargetB, rightTargetF, rightTargetB);
+//            telemetry.addData("move counts:", moveCounts);
+//            telemetry.update();
             frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            telemetry.addData("maxDriveSpeed", maxDriveSpeed);
-            telemetry.addData("active", opModeIsActive());
-            telemetry.addData("ldf", frontLeftDrive.isBusy());
-            telemetry.addData("rdf", frontRightDrive.isBusy());
-            telemetry.addData("ldb", backLeftDrive.isBusy());
-            telemetry.addData("rdb", backRightDrive.isBusy());
+//            telemetry.addData("maxDriveSpeed", maxDriveSpeed);
+//            telemetry.addData("active", opModeIsActive());
+//            telemetry.addData("ldf", frontLeftDrive.isBusy());
+//            telemetry.addData("rdf", frontRightDrive.isBusy());
+//            telemetry.addData("ldb", backLeftDrive.isBusy());
+//            telemetry.addData("rdb", backRightDrive.isBusy());
             // Unfortunately we need this because sometimes the motor hasn't recognized yet that it's busy!!
             //sleep(1000);
             // Set the required driving speed  (must be positive for RUN_TO_POSITION)

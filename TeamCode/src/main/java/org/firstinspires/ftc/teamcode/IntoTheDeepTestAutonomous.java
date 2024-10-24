@@ -146,13 +146,15 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
     double threeToOne = 84.0 / 29.0; // real 3:1
     double fourToOne = 76.0 / 21.0; // real 4:1
     double drivetrainMotorGearRatio = threeToOne * fourToOne; //get gear ratio
+
     public double inchesPerTick() {
         return (wheelCircum / (drivetrainMotorGearRatio * ultPlanHexEncoderTicks)); //Inches per tick
         //return ((drivetrainMotorGearRatio * ultPlanHexEncoderTicks)/wheelCircum) * inches; //Ticks per inch
     }
+
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double DRIVE_SPEED = 0.45;     // Max driving speed for better distance accuracy.
+    static final double DRIVE_SPEED = 0.15;     // Max driving speed for better distance accuracy.
     static final double SLOW_DRIVE_SPEED = 0.15;
     static final double FAST_DRIVE_SPEED = 0.6;
     static final double TURN_SPEED = 0.45;     // Max Turn speed to limit turn rate
@@ -170,6 +172,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
     protected boolean isAutonomous = true;
     //this sets up for bulk reads!
     protected List<LynxModule> allHubs;
+
     protected void setupRobot() {
         // Initialize the drive system variables.
         backLeftDrive = hardwareMap.get(DcMotor.class, "left_driveB");
@@ -220,11 +223,13 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         // Change this so that we keep telemetry on during init but disable it during run mode
         //telemetry.setMsTransmissionInterval(10000;)
     }
+
     /**
      * Checks on linear slide, four bar, and intake inside driving loops so that they can update themselves
      */
     protected void mechanismLoop() {
     }
+
     @Override
     public void runOpMode() {
         setupRobot();
@@ -252,46 +257,47 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         sleep(1000);
         // Pause to display last telemetry message.
     }
+
     public void runAutonomousProgram() {
 
 
+        int testingDriveDistance = 0;
 
-       int testingDriveDistance = 0;
+        while (opModeIsActive()) {
 
-        while(opModeIsActive()){
-
-          if(gamepad1.dpad_up){
-              testingDriveDistance = 15;
-          }
-          if(gamepad1.dpad_down){
+            if (gamepad1.dpad_up) {
+                testingDriveDistance = 15;
+            }
+            if (gamepad1.dpad_down) {
                 testingDriveDistance = 30;
             }
-          if(gamepad1.dpad_left){
+            if (gamepad1.dpad_left) {
                 testingDriveDistance = 45;
             }
-          if(gamepad1.dpad_right){
+            if (gamepad1.dpad_right) {
                 testingDriveDistance = 55;
             }
 
-          if(gamepad1.a){
-              driveStraight(DRIVE_SPEED, testingDriveDistance, 0, false);
-          }
+            if (gamepad1.a) {
+                driveStraight(DRIVE_SPEED, testingDriveDistance, 0, false);
+            }
 
-            telemetry.addLine("Drive distance: " + testingDriveDistance);
-            telemetry.addData("left front moved:", frontLeftDrive.getCurrentPosition());
-            telemetry.addData("left back moved:", backLeftDrive.getCurrentPosition());
-            telemetry.addData("right front moved:", frontRightDrive.getCurrentPosition());
-            telemetry.addData("right back moved:", backRightDrive.getCurrentPosition());
-            telemetry.addData("Left Front target", leftTargetF);
-            telemetry.addData("Left Back target", leftTargetB);
-            telemetry.addData("Right Front target", rightTargetF);
-            telemetry.addData("Right Back target", rightTargetB);
-            telemetry.addData("move counts", (int) (testingDriveDistance / inchesPerTick()));
-            telemetry.addData("inches per tick ", inchesPerTick());
-            telemetry.addData("wheel circumference", wheelCircum);
-            telemetry.addData("drivetrain gear ratio", drivetrainMotorGearRatio);
-            telemetry.addData("motor encoder ticks", ultPlanHexEncoderTicks);
-            telemetry.update();
+//            telemetry.addLine("Drive distance: " + testingDriveDistance);
+//            telemetry.addData("left front moved:", frontLeftDrive.getCurrentPosition());
+//            telemetry.addData("left back moved:", backLeftDrive.getCurrentPosition());
+//            telemetry.addData("right front moved:", frontRightDrive.getCurrentPosition());
+//            telemetry.addData("right back moved:", backRightDrive.getCurrentPosition());
+//            telemetry.addData("Left Front target", leftTargetF);
+//            telemetry.addData("Left Back target", leftTargetB);
+//            telemetry.addData("Right Front target", rightTargetF);
+//            telemetry.addData("Right Back target", rightTargetB);
+//            telemetry.addData("move counts", (int) (testingDriveDistance / inchesPerTick()));
+//            telemetry.addData("inches per tick ", inchesPerTick());
+//            telemetry.addData("wheel circumference", wheelCircum);
+//            telemetry.addData("drivetrain gear ratio", drivetrainMotorGearRatio);
+//            telemetry.addData("motor encoder ticks", ultPlanHexEncoderTicks);
+//            telemetry.addData("drive speed", DRIVE_SPEED);
+//            telemetry.update();
 
         }
     }
@@ -302,6 +308,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
      * ====================================================================================================
      */
     // **********  HIGH Level driving functions.  ********************
+
     /**
      * Method to drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
      * Move will stop if either of these conditions occur:
@@ -390,7 +397,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
                 telemetry.addData("left back moved:", backLeftDrive.getCurrentPosition());
                 telemetry.addData("right front moved:", frontRightDrive.getCurrentPosition());
                 telemetry.addData("right back moved:", backRightDrive.getCurrentPosition());
-               telemetry.update();
+                telemetry.update();
 
                 if (!(frontLeftDrive.isBusy() || frontRightDrive.isBusy() || backLeftDrive.isBusy() || backRightDrive.isBusy())) {
                     break;
@@ -404,12 +411,14 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
             backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
+
     /**
      * Method to start strafe for april tag detection
+     *
      * @param strafeSpeed speed to strafe at
-     * @param heading heading to maintain while strafing
-     * @param direction direction to strafe string ("left" or "right")
-     * @param isMirrored mirroring for red/blue side?
+     * @param heading     heading to maintain while strafing
+     * @param direction   direction to strafe string ("left" or "right")
+     * @param isMirrored  mirroring for red/blue side?
      */
     public void startStrafe(double strafeSpeed, double heading, String direction, boolean isMirrored) {
         if (opModeIsActive()) {
@@ -440,6 +449,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
             //mechanismLoop();
         }
     }
+
     /**
      * Method to stop strafe (and all motor movement)
      */
@@ -450,6 +460,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         backRightDrive.setPower(0);
         clearBulkCache();
     }
+
     /**
      * Method to spin on central axis to point in a new direction.
      * Move will stop if either of these conditions occur:
@@ -484,6 +495,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         // Stop all motion;
         moveRobot(0, 0);
     }
+
     /**
      * Method to obtain & hold a heading for a finite amount of time
      * Move will stop once the requested time has elapsed
@@ -526,6 +538,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         }
     }
     // **********  LOW Level driving functions.  ********************
+
     /**
      * This method uses a Proportional Controller to determine how much steering correction is required.
      *
@@ -545,6 +558,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         // Multiply the error by the gain to determine the required steering correction/  Limit the result to +/- 1.0
         return Range.clip(headingError * proportionalGain, -1, 1);
     }
+
     /**
      * This method takes separate drive (fwd/rev) and turn (right/left) requests,
      * combines them, and applies the appropriate speed commands to the left and right wheel motors.
@@ -568,6 +582,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         frontRightDrive.setPower(rightSpeed);
         backRightDrive.setPower(rightSpeed);
     }
+
     public void strafeMoveRobot(String direction, double drive, double turn) {
         //driveSpeed = drive;     // save this value as a class member so it can be used by telemetry.
         //turnSpeed = turn;      // save this value as a class member so it can be used by telemetry.
@@ -591,6 +606,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
             backRightDrive.setPower(backSpeed);
         }
     }
+
     protected void clearBulkCache() {
         // Clears the cache so that it will be refreshed the next time you ask for a sensor value!
         // Be very sure that this gets called in every loop in your code!!!!
@@ -598,6 +614,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
             hub.clearBulkCache();
         }
     }
+
     /**
      * Display the various control parameters while driving
      *
@@ -623,6 +640,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         runtime.reset();
         telemetry.update();
     }
+
     /**
      * read the raw (un-offset Gyro heading) directly from the IMU
      */
@@ -631,6 +649,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         double botHeading = orientation.getYaw(AngleUnit.DEGREES);  // + 180.0; // +/- 180 to flip heading
         return botHeading;
     }
+
     /**
      * Reset the "offset" heading back to zero
      */
@@ -639,99 +658,4 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         headingOffset = getRawHeading();
         robotHeading = 0;
     }
-    // TODO: can we rename these moveTo* functions for setHeightTo*
-    public void moveToGroundPosition() {
-        //linearSlide.setPosition(0);
-        //swingArm.setPosition(1);
-    }
-    public void moveToLowPosition() {
-        //linearSlide.setPosition(3);
-        //swingArm.setPosition(1);
-    }
-    public void moveToMediumPosition() {
-        //linearSlide.setPosition(1);
-        //swingArm.setPosition(2);
-    }
-    public void moveToHighPosition() {
-        //linearSlide.setPosition(3);
-        //swingArm.setPosition(2);
-    }
-    public void moveToIntakePosition() {
-        //linearSlide.setPosition(2);
-        //swingArm.setPosition(1);
-    }
-    //Step 1: detect the team prop
-//    TestAutonomous.SpikeMark teamPropMark = detectTeamProp();
-//    //Step 2: drive to the team prop
-//    //driveToCorrectSpikeMark(teamPropMark);
-//    //Step 3: place purple pixel on same line as team prop
-//    //ejectPurplePixel();
-//    //Step 4: return to original position
-//    //driveFromSpikeMark(teamPropMark);
-//    //Step 5: drive under truss closest to wall to get to backdrop
-//    //driveToBackdrop(isNear);
-//    //Step 6: place yellow pixel on correct Apriltag
-//    //depositYellowPixel(teamPropMark);
-//    //Step 7: drive off to side
-//    //parkInBackstage(parkLeft);
-//
-//    void driveForwardInches(double amount) {
-//    }
-//    void turnDegrees(double amount) {
-//    }
-//    enum SpikeMark {RIGHT, LEFT, CENTER}
-//
-//    TestAutonomous.SpikeMark detectTeamProp() {
-//        return TestAutonomous.SpikeMark.CENTER;
-//        //
-//    }
-//
-//    final double SPIKE_MARK_DECISION_DISTANCE = -1;
-//    final double CENTER_SPIKE_MARK_INCHES = -1;
-//    final double OFFCENTER_SPIKE_MARK_INCHES = -1;
-//    final double OFFCENTER_DECISION_TURN_DEGREES = -1;
-//
-//    void driveToCorrectSpikeMark(TestAutonomous.SpikeMark teamPropMark) {
-//        driveForwardInches(SPIKE_MARK_DECISION_DISTANCE);
-//
-//        if (teamPropMark == TestAutonomous.SpikeMark.CENTER) {
-//            driveForwardInches(CENTER_SPIKE_MARK_INCHES);
-//        } else if (teamPropMark == TestAutonomous.SpikeMark.LEFT) {
-//            turnDegrees(OFFCENTER_DECISION_TURN_DEGREES);
-//            driveForwardInches(OFFCENTER_SPIKE_MARK_INCHES);
-//        }
-//        else if (teamPropMark == TestAutonomous.SpikeMark.RIGHT) {
-//            turnDegrees(-OFFCENTER_DECISION_TURN_DEGREES);
-//            driveForwardInches(OFFCENTER_SPIKE_MARK_INCHES);
-//        }
-//    }
-//
-//    void ejectPurplePixel() {
-//        intake.ejectPixel();
-//    }
-//
-//    void driveFromSpikeMark(TestAutonomous.SpikeMark teamPropMark) {
-//        driveForwardInches(-SPIKE_MARK_DECISION_DISTANCE);
-//
-//        if (teamPropMark == TestAutonomous.SpikeMark.CENTER) {
-//            driveForwardInches(-CENTER_SPIKE_MARK_INCHES);
-//        } else if (teamPropMark == TestAutonomous.SpikeMark.LEFT) {
-//            turnDegrees(-OFFCENTER_DECISION_TURN_DEGREES);
-//            driveForwardInches(-OFFCENTER_SPIKE_MARK_INCHES);
-//        }
-//        else if (teamPropMark == TestAutonomous.SpikeMark.RIGHT) {
-//            turnDegrees(OFFCENTER_DECISION_TURN_DEGREES);
-//            driveForwardInches(-OFFCENTER_SPIKE_MARK_INCHES);
-//        }
-//    }
-//
-//    void driveToBackdrop(boolean isNear) {
-//    }
-//
-//    void depositYellowPixel(TestAutonomous.SpikeMark teamPropMark) {
-//    }
-//
-//    void parkInBackstage(boolean parkLeft) {
-//    }
-//
 }
