@@ -118,7 +118,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         imu.initialize(new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.FORWARD
+                        RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
                 )));
 
 

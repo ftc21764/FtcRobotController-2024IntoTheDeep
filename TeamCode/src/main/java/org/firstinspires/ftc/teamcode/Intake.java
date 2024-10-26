@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class IntakeServos {
+public class Intake {
 
     private final Gamepad gamepad;
     CRServoController leftIntakeServo  = new CRServoController();
     CRServoController rightIntakeServo = new CRServoController();
-    public IntakeServos(HardwareMap hardwareMap, Gamepad gamepad) {
+    public Intake(HardwareMap hardwareMap, Gamepad gamepad) {
         this.gamepad = gamepad;
         leftIntakeServo.init(hardwareMap, "intakeServoL");
         rightIntakeServo.init(hardwareMap, "intakeServoR");

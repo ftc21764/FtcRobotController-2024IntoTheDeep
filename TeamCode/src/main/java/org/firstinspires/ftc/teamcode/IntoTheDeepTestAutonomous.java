@@ -200,8 +200,8 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                        RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
                 )));
         // Ensure the robot is stationary.  Reset the encoders and set the motors to BRAKE mode
         frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -297,7 +297,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
 //            telemetry.addData("drivetrain gear ratio", drivetrainMotorGearRatio);
 //            telemetry.addData("motor encoder ticks", ultPlanHexEncoderTicks);
 //            telemetry.addData("drive speed", DRIVE_SPEED);
-//            telemetry.update();
+            telemetry.update();
 
         }
     }

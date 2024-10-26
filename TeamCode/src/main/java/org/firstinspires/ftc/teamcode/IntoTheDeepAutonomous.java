@@ -190,15 +190,14 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        // TODO: Figure out if it's better to use a static variable for imu
         // and then avoid re-initializing it if you're in teleop mode and it already exists.
         // That way the current orientation is not reset when the opmode starts.
         // define initialization values for IMU, and then initialize it.
         imu = hardwareMap.get(IMU.class, "imu");
         imu.initialize(new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.FORWARD,
-                        RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD
                 )));
         // Ensure the robot is stationary.  Reset the encoders and set the motors to BRAKE mode
         frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
