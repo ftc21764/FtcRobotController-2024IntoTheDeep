@@ -74,6 +74,9 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
     protected DcMotor frontRightDrive = null;
     protected DcMotor backRightDrive = null;
     protected IMU imu = null;
+    protected IntakeSlide intakeSlide;
+    protected IntakeWrist intakeWrist;
+    protected LinearLift linearLift;
     protected ElapsedTime runtime = new ElapsedTime();
 
     private double robotHeading = 0;
@@ -144,18 +147,19 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "left_driveF");
         backRightDrive = hardwareMap.get(DcMotor.class, "right_driveB");
         frontRightDrive = hardwareMap.get(DcMotor.class, "right_driveF");
-        //recognizer = new SignalSleeveRecognizer(hardwareMap, telemetry);
-        //linearSlide = new LinearSlide(hardwareMap, telemetry, gamepad2);
-        //swingArm = new SwingArm(hardwareMap, telemetry, gamepad2, isAutonomous);
+
+        intakeSlide = new IntakeSlide(hardwareMap, telemetry, gamepad2, true);
+        intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, true);
+        linearLift = new LinearLift(hardwareMap, telemetry,gamepad2, true);
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
 //        21764:
-        frontLeftDrive.setDirection           (DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection            (DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection          (DcMotor.Direction.FORWARD);
-        backRightDrive.setDirection           (DcMotor.Direction.REVERSE);
+        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // TODO: Figure out if it's better to use a static variable for imu
         // and then avoid re-initializing it if you're in teleop mode and it already exists.
@@ -201,7 +205,9 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
 
 
     protected void mechanismLoop() {
-
+        intakeSlide.loop();
+        intakeWrist.loop();
+        linearLift.loop();
     }
 
     @Override
@@ -217,7 +223,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
             telemetry.addData("right front starting:", frontRightDrive.getCurrentPosition());
             telemetry.addData("right back starting:", backRightDrive.getCurrentPosition());
 
-            //telemetry.addData();
+
 
             telemetry.update();
 
