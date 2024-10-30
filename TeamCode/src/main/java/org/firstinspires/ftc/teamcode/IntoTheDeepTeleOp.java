@@ -36,6 +36,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -94,27 +95,14 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         DcMotor frontLeftDrive = hardwareMap.get(DcMotor.class, "left_driveF");
         DcMotor backLeftDrive = hardwareMap.get(DcMotor.class, "left_driveB");
 
-        /*
-        Intake intake = new Intake(hardwareMap, telemetry, gamepad1);
-
-        SwingArm swingArm = new SwingArm(hardwareMap, telemetry, gamepad2, false);
-
-        Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2);
-
-        DoorServo doorServo = new DoorServo(hardwareMap, gamepad2);
-
-        BucketServo bucketServo = new BucketServo(hardwareMap);
-
-        DroneLauncherServo droneLauncherServo = new DroneLauncherServo(hardwareMap, gamepad2);
-         */
-
-
+        IntakeSlide intakeSlide = new IntakeSlide(hardwareMap, telemetry, gamepad2, false);
+        LinearLift linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
+        IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry,gamepad2, false);
 
         // Initialize the IMU (Inertia Measurement Unit), used to detect the orientation of the robot
         // for Field-Oriented driving
         IMU imu = hardwareMap.get(IMU.class, "imu");
 
-        //todo: remount the control hub. this orientation is temporary
         imu.initialize(new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.UP,
@@ -157,13 +145,9 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             double max;
 
-            //intake.loop();
-            //swingArm.loop();
-            //suspension.loop();
-            //doorServo.loop();
-            //bucketServo.loop();
-            //droneLauncherServo.loop();
-
+            intakeSlide.loop();
+            linearLift.loop();
+            intakeWrist.loop();
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
 
             double y = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value ;
