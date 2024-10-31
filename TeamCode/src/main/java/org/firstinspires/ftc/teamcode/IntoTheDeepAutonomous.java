@@ -74,6 +74,9 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
     protected DcMotor frontRightDrive = null;
     protected DcMotor backRightDrive = null;
     protected IMU imu = null;
+    protected IntakeSlide intakeSlide;
+    protected IntakeWrist intakeWrist;
+    protected LinearLift linearLift;
     protected ElapsedTime runtime = new ElapsedTime();
 
     private double robotHeading = 0;
@@ -144,18 +147,19 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         frontLeftDrive = hardwareMap.get(DcMotor.class, "left_driveF");
         backRightDrive = hardwareMap.get(DcMotor.class, "right_driveB");
         frontRightDrive = hardwareMap.get(DcMotor.class, "right_driveF");
-        //recognizer = new SignalSleeveRecognizer(hardwareMap, telemetry);
-        //linearSlide = new LinearSlide(hardwareMap, telemetry, gamepad2);
-        //swingArm = new SwingArm(hardwareMap, telemetry, gamepad2, isAutonomous);
+
+        intakeSlide = new IntakeSlide(hardwareMap, telemetry, gamepad2, true);
+        intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, true);
+        linearLift = new LinearLift(hardwareMap, telemetry,gamepad2, true);
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
 //        21764:
-        frontLeftDrive.setDirection           (DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection            (DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection          (DcMotor.Direction.FORWARD);
-        backRightDrive.setDirection           (DcMotor.Direction.REVERSE);
+        frontLeftDrive.setDirection(DcMotor.Direction.FORWARD);
+        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // TODO: Figure out if it's better to use a static variable for imu
         // and then avoid re-initializing it if you're in teleop mode and it already exists.
@@ -201,7 +205,9 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
 
     protected void mechanismLoop() {
-
+        intakeSlide.loop();
+        intakeWrist.loop();
+        linearLift.loop();
     }
 
     @Override
@@ -217,7 +223,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
             telemetry.addData("right front starting:", frontRightDrive.getCurrentPosition());
             telemetry.addData("right back starting:", backRightDrive.getCurrentPosition());
 
-            //telemetry.addData();
+
 
             telemetry.update();
 
@@ -242,70 +248,15 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
 
     public void runAutonomousProgram() {
+        intakeWrist.setPosition(IntakeWrist.POSITION_TO_INTAKE);
 
-        int testDriveDistance = 0;
-        int testRotationAngle = 0;
-        int currentSetAngle   = 0;
-
-        while (opModeIsActive()) {
-
-            if (gamepad1.dpad_up) {
-                testDriveDistance += 6;
-                while(gamepad1.dpad_up);
-            }
-            if (gamepad1.dpad_down) {
-                testDriveDistance -= 6;
-                while(gamepad1.dpad_down);
-            }
-
-            if (gamepad1.dpad_left) {
-                testRotationAngle += 45;
-                while(gamepad1.dpad_left);
-            }
-            if (gamepad1.dpad_right) {
-                testRotationAngle -= 45;
-                while(gamepad1.dpad_right);
-            }
-
-            if (gamepad1.a) {
-                driveStraight(DRIVE_SPEED, testDriveDistance, currentSetAngle);
-                testDriveDistance = 0;
-            }
-
-            if (gamepad1.b) {
-                turnToHeading(TURN_SPEED, testRotationAngle);
-                currentSetAngle   = testRotationAngle;
-                testRotationAngle = 0;
-            }
-
-            if (gamepad1.y) break;
-
-            telemetry.addData("Drive distance", testDriveDistance);
-            telemetry.addData("Rotation Angle", testRotationAngle);
-            telemetry.addLine("");
-            telemetry.addData("IMU Orientation", "%4.2f", getRawHeading());
-            telemetry.addData("Current Set Angle", currentSetAngle);
-            telemetry.update();
+        /* Autonomous
+        * Preload a specimen
+        * Start on
+        *
+        * */
 
 
-        }
-
-        /* todo: helpful april tag code
-        propVisionPortal.close();
-
-        tagProcessor = new AprilTagProcessor.Builder()
-                .setDrawAxes(true)
-                .setDrawCubeProjection(true)
-                .setDrawTagID(true)
-                .setDrawTagOutline(true)
-                .build();
-
-        tagsVisionPortal = new VisionPortal.Builder()
-                .addProcessor(tagProcessor)
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .setCameraResolution(new Size(640, 480))
-                .build();
-         */
     }
 
     /*
@@ -620,32 +571,6 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
      *
      * @param straight Set to true if we are driving straight, and the encoder positions should be included in the telemetry.
      */
-    /*private void sendTelemetry(boolean straight) { //SHOULD BE LABELED SOMETHING LIKE "driveSendTelemetry"
-        if (straight) {
-            telemetry.addData("Motion", "Drive Straight");
-            telemetry.addData("Target Pos LF:RF:LB:RB", "%7d:%7d:%7d:%7d",
-                    leftTargetF, rightTargetF, leftTargetB, rightTargetB);
-            telemetry.addData("Actual Pos LF:RF:LB:RB", "%7d:%7d:%7d:%7d", frontLeftDrive.getCurrentPosition(),
-                    frontRightDrive.getCurrentPosition(), backLeftDrive.getCurrentPosition(), backRightDrive.getCurrentPosition());
-        } else {
-            telemetry.addData("Motion", "Turning");
-        }
-
-        telemetry.addData("Angle Target:Current", "%5.2f:%5.0f", targetHeading, robotHeading);
-        telemetry.addData("Error:Steer", "%5.1f:%5.1f", headingError, turnSpeed);
-        telemetry.addData("Wheel Speeds L:R.", "%5.2f : %5.2f", leftSpeed, rightSpeed);
-
-        telemetry.addData("drive straight loops: ", driveStraightLoops);
-        telemetry.addData("current driveSpeed value: ", driveSpeed);
-
-        //checks the time spent on the loop and adds it to telemetry
-
-        telemetry.addData("Loop Time", (int) runtime.milliseconds());
-
-        runtime.reset();
-
-        telemetry.update();
-    }*/
 
     /**
      * read the raw (un-offset Gyro heading) directly from the IMU

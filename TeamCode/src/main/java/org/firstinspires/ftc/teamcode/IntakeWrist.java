@@ -19,8 +19,8 @@ public class IntakeWrist {
 
     // add statics as necessary
 
-    private int motorTickTarget = 0; // this variable is for telemetry
-
+    static final int POSITION_TO_INTAKE = 0; //placeholder
+    static final int POSITION_TO_DELIVER = 110; // placeholder
     final boolean isAutonomous; // will not be necessary if wrist is automated
 
     public IntakeWrist(HardwareMap hardwareMap, Telemetry telemetry, Gamepad gamepad, boolean isAutonomous) {
@@ -44,17 +44,15 @@ public class IntakeWrist {
      */
     public void setPosition(int ticks) {
         wristMotor.setTargetPosition(ticks);
-        motorTickTarget = ticks;
     }
 
     private void readGamepad(Gamepad gamepad) { // will be unnecessary if wrist is automated
-        /* this is where your controls go. an example of this might look like:
-
-        if (gamepad.a) setPosition(LOW_HARDSTOP)
-        if (gamepad.b) setPosition(HIGH_HARDSTOP)
-
-         */
-        if (gamepad.a) setPosition(LOW_HARDSTOP);
+       if(gamepad.dpad_up){
+        setPosition(POSITION_TO_DELIVER);
+       }
+       if(gamepad.dpad_down){
+           setPosition(POSITION_TO_INTAKE);
+       }
     }
 
     public void loop() {
