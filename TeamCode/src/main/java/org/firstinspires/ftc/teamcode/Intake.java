@@ -7,10 +7,12 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Intake {
 
     private final Gamepad gamepad;
+    final boolean isAutonomous;
     CRServoController leftIntakeServo  = new CRServoController();
     CRServoController rightIntakeServo = new CRServoController();
-    public Intake(HardwareMap hardwareMap, Gamepad gamepad) {
+    public Intake(HardwareMap hardwareMap, Gamepad gamepad, boolean isAutonomous) {
         this.gamepad = gamepad;
+        this.isAutonomous = isAutonomous;
         leftIntakeServo.init(hardwareMap, "intakeServoL");
         rightIntakeServo.init(hardwareMap, "intakeServoR");
         leftIntakeServo.setDirection(DcMotorSimple.Direction.FORWARD);

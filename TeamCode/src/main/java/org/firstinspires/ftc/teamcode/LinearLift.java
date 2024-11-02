@@ -36,6 +36,7 @@ public class LinearLift {
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor"); //port 2
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); //todo: figure out if we need a float or brake
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setTargetPosition(LOW_HARDSTOP);
 
@@ -80,7 +81,8 @@ public class LinearLift {
             readGamepad(gamepad);
         }
         liftMotor.setTargetPosition(targetPositionCount);
-        telemetry.addData("encoder position", liftMotor.getCurrentPosition());
+        telemetry.addData("Linear lift encoder position", liftMotor.getCurrentPosition());
+        telemetry.update();
     }
 
 }

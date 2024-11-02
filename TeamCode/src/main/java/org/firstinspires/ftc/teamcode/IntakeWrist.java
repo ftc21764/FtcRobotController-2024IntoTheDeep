@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,6 +13,7 @@ public class IntakeWrist {
 
     protected static DcMotor wristMotor;
     private final Gamepad gamepad; //if the wrist is automated, gamepad input might be unnecessary
+    private final Telemetry telemetry;
     private final ElapsedTime runtime = new ElapsedTime();
 
     static final int LOW_HARDSTOP = 0;
@@ -25,13 +27,16 @@ public class IntakeWrist {
 
     public IntakeWrist(HardwareMap hardwareMap, Telemetry telemetry, Gamepad gamepad, boolean isAutonomous) {
 
-        wristMotor = hardwareMap.get(DcMotor.class, "wristMotor"); // port 1
+
 
         this.gamepad = gamepad;
         this.isAutonomous = isAutonomous;
+        this.telemetry= telemetry;
 
+        wristMotor = hardwareMap.get(DcMotor.class, "wristMotor"); // port 1
         wristMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        wristMotor.setDirection(DcMotor.Direction.FORWARD);
         wristMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wristMotor.setTargetPosition(LOW_HARDSTOP);
 
@@ -57,6 +62,8 @@ public class IntakeWrist {
 
     public void loop() {
         if (!isAutonomous) readGamepad(gamepad);
+        telemetry.addData("Wrist encoder count", wristMotor.getCurrentPosition());
+        telemetry.update();
     }
 
 

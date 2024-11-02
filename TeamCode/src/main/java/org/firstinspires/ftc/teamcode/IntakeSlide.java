@@ -27,15 +27,17 @@ public class IntakeSlide {
 
     public IntakeSlide(HardwareMap hardwareMap, Telemetry telemetry, Gamepad gamepad, boolean isAutonomous) {
 
-        intakeSlideMotor = hardwareMap.get(DcMotor.class,"intakeSlideMotor"); // port 0
+
 
         this.isAutonomous = isAutonomous;
         this.gamepad = gamepad;
         this.telemetry = telemetry;
 
+        intakeSlideMotor = hardwareMap.get(DcMotor.class,"intakeSlideMotor"); // port 0
         intakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intakeSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); // todo: figure out which value is best
         intakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        intakeSlideMotor.setDirection(DcMotor.Direction.FORWARD);
         intakeSlideMotor.setTargetPosition(LOW_HARDSTOP);
         intakeSlideMotor.setPower(MAX_SPEED);
 
@@ -77,6 +79,8 @@ public class IntakeSlide {
     public void loop() {
         if (!isAutonomous) readGamepad(gamepad);
         intakeSlideMotor.setTargetPosition(targetPositionCount);
+        telemetry.addData("Intake slide encoder counts", intakeSlideMotor.getCurrentPosition());
+        telemetry.update();
     }
 
     /*
