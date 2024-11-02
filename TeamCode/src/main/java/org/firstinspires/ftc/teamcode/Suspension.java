@@ -42,8 +42,8 @@ public class Suspension {
         suspensionMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         suspensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); // todo: figure out which value is best
         suspensionMotor.setDirection(DcMotor.Direction.FORWARD);
-        suspensionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         suspensionMotor.setTargetPosition(LOW_HARDSTOP);
+        suspensionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         telemetry.addData("Slide motor position", "%7d", suspensionMotor.getCurrentPosition());
 

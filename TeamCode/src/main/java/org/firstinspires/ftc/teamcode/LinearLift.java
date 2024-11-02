@@ -18,7 +18,10 @@ public class LinearLift {
     static final int LOW_HARDSTOP = 0;
     static final int HIGH_HARDSTOP = 0;
     static final double ADJUSTMENT_MODIFIER = 30;
-    //todo: add more static variables like high middle and low positions
+    static final double MAX_SPEED = 1;
+
+    static final int HIGH_BUCKET = 500; //todo: placeholder
+    static final int LOW_BUCKET =  100; //todo: same here
 
     //todo: determine what speed to set the motors to & whether up speed is different than down speed
 
@@ -36,9 +39,10 @@ public class LinearLift {
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor"); //port 2
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); //todo: figure out if we need a float or brake
-        liftMotor.setDirection(DcMotor.Direction.FORWARD);
-        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftMotor.setDirection(DcMotor.Direction.REVERSE);
         liftMotor.setTargetPosition(LOW_HARDSTOP);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftMotor.setPower(MAX_SPEED);
 
 
         telemetry.addData("slide motor position", "%7d", liftMotor.getCurrentPosition());
@@ -56,7 +60,7 @@ public class LinearLift {
     }
 
     private void readGamepad(Gamepad gamepad) {
-        if (gamepad.left_stick_y > 0.1 || gamepad.left_stick_y < -0.1 ) {
+        /*if (gamepad.left_stick_y > 0.1 || gamepad.left_stick_y < -0.1 ) {
 
             targetPositionCount = Range.clip((int)(targetPositionCount + ADJUSTMENT_MODIFIER*-gamepad.left_stick_y), LOW_HARDSTOP, HIGH_HARDSTOP);
 
@@ -73,7 +77,11 @@ public class LinearLift {
         } else {
             telemetry.addData("Manual Branch", "Running to Junction");
 
-        }
+        }*/
+
+        if (gamepad.a) setPosition(LOW_HARDSTOP);
+        if (gamepad.b) setPosition(LOW_BUCKET);
+        if (gamepad.y) setPosition(HIGH_BUCKET);
     }
 
     public void loop() { //if linear slide doesnt run in auto, this parameter will be unnecessary

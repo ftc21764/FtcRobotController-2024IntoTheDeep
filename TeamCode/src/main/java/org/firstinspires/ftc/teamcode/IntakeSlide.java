@@ -36,9 +36,9 @@ public class IntakeSlide {
         intakeSlideMotor = hardwareMap.get(DcMotor.class,"intakeSlideMotor"); // port 0
         intakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intakeSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); // todo: figure out which value is best
+        intakeSlideMotor.setTargetPosition(LOW_HARDSTOP);
         intakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         intakeSlideMotor.setDirection(DcMotor.Direction.FORWARD);
-        intakeSlideMotor.setTargetPosition(LOW_HARDSTOP);
         intakeSlideMotor.setPower(MAX_SPEED);
 
         telemetry.addData("Intake slide motor position", "%7d", intakeSlideMotor.getCurrentPosition());

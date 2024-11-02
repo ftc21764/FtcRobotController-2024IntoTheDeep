@@ -6,6 +6,10 @@ Motor Port | Motor name
 2          | "left_driveF"
 3          | "left_driveB"
 
+Servo Port | Servo Name
+0          | "intakeServoL"
+1          | "intakeServoR"
+
 Expansion hub:
 Motor port | Motor name
 0          | "intakeSlideMotor"

@@ -18,7 +18,7 @@ public class IntakeWrist {
 
     static final int LOW_HARDSTOP = 0;
     static final int HIGH_HARDSTOP = 1000; // placeholder
-
+    static final double MAX_SPEED = 1;
     // add statics as necessary
 
     static final int POSITION_TO_INTAKE = 0; //placeholder
@@ -36,9 +36,10 @@ public class IntakeWrist {
         wristMotor = hardwareMap.get(DcMotor.class, "wristMotor"); // port 1
         wristMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        wristMotor.setDirection(DcMotor.Direction.FORWARD);
-        wristMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wristMotor.setDirection(DcMotor.Direction.REVERSE);
         wristMotor.setTargetPosition(LOW_HARDSTOP);
+        wristMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        wristMotor.setPower(MAX_SPEED);
 
         telemetry.addData("Slide motor position", "%7d", wristMotor.getCurrentPosition());
     }

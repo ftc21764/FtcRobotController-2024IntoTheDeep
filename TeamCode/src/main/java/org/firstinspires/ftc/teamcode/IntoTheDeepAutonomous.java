@@ -252,8 +252,13 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
         /* Autonomous
         * Preload a specimen
-        * Start on
-        *
+        * Start in the middle ig???
+        * Move forward and hang specimen
+        * Turn 90 degrees and drive to the spike marks
+        * Turn again and grab sample
+        * Turn yet again and score in the high basket
+        * Repeat until there are no more spike mark samples
+        * If we have time:
         * */
 
 
