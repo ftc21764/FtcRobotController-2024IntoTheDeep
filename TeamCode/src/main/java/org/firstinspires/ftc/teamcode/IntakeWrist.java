@@ -17,12 +17,12 @@ public class IntakeWrist {
     private final ElapsedTime runtime = new ElapsedTime();
 
     static final int LOW_HARDSTOP = 0;
-    static final int HIGH_HARDSTOP = 1000; // placeholder
-    static final double MAX_SPEED = 1;
+    static final int HIGH_HARDSTOP = 125; // placeholder
+    static final double MAX_SPEED = 0.5;
     // add statics as necessary
 
-    static final int POSITION_TO_INTAKE = 0; //placeholder
-    static final int POSITION_TO_DELIVER = 110; // placeholder
+    static final int POSITION_TO_INTAKE = -117;
+    static final int POSITION_TO_DELIVER = -84;
     final boolean isAutonomous; // will not be necessary if wrist is automated
 
     public IntakeWrist(HardwareMap hardwareMap, Telemetry telemetry, Gamepad gamepad, boolean isAutonomous) {
@@ -41,7 +41,6 @@ public class IntakeWrist {
         wristMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wristMotor.setPower(MAX_SPEED);
 
-        telemetry.addData("Slide motor position", "%7d", wristMotor.getCurrentPosition());
     }
 
     /**
@@ -52,19 +51,19 @@ public class IntakeWrist {
         wristMotor.setTargetPosition(ticks);
     }
 
-    private void readGamepad(Gamepad gamepad) { // will be unnecessary if wrist is automated
-       if(gamepad.dpad_up){
+    private void readGamepad(Gamepad gamepad) {
+       if(gamepad.dpad_up && IntakeSlide.intakeSlideMotor.getCurrentPosition() > 300){
         setPosition(POSITION_TO_DELIVER);
        }
-       if(gamepad.dpad_down){
-           setPosition(POSITION_TO_INTAKE);
+       if(gamepad.dpad_down && IntakeSlide.intakeSlideMotor.getCurrentPosition() > 300){
+               setPosition(POSITION_TO_INTAKE);
+           }
        }
-    }
+
 
     public void loop() {
         if (!isAutonomous) readGamepad(gamepad);
         telemetry.addData("Wrist encoder count", wristMotor.getCurrentPosition());
-        telemetry.update();
     }
 
 

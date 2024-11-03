@@ -15,10 +15,12 @@ public class IntakeSlide {
     private final Telemetry telemetry;
     private final ElapsedTime runtime = new ElapsedTime();
 
-    static final int LOW_HARDSTOP = 0;
-    static final int HIGH_HARDSTOP = 1000; // placeholder
+    static final int LOW_HARDSTOP = 2;
+    static final int HIGH_HARDSTOP = 1440; //2880
     static final double MAX_SPEED = 0.5;
-    static final double ADJUSTMENT_MODIFIER = 30;
+    static final double ADJUSTMENT_MODIFIER = 15;
+
+    // todo: make future statics public so they can be used externally, in setPosition()
 
     final boolean isAutonomous;
 
@@ -27,19 +29,18 @@ public class IntakeSlide {
 
     public IntakeSlide(HardwareMap hardwareMap, Telemetry telemetry, Gamepad gamepad, boolean isAutonomous) {
 
-
+        intakeSlideMotor = hardwareMap.get(DcMotor.class,"intakeSlideMotor"); // port 0
 
         this.isAutonomous = isAutonomous;
         this.gamepad = gamepad;
         this.telemetry = telemetry;
 
-        intakeSlideMotor = hardwareMap.get(DcMotor.class,"intakeSlideMotor"); // port 0
         intakeSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intakeSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); // todo: figure out which value is best
-        intakeSlideMotor.setTargetPosition(LOW_HARDSTOP);
-        intakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         intakeSlideMotor.setDirection(DcMotor.Direction.FORWARD);
-        intakeSlideMotor.setPower(MAX_SPEED);
+        intakeSlideMotor.setTargetPosition(LOW_HARDSTOP);
+        intakeSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        intakeSlideMotor.setPower(MAX_SPEED);
 
         telemetry.addData("Intake slide motor position", "%7d", intakeSlideMotor.getCurrentPosition());
 
@@ -64,9 +65,9 @@ public class IntakeSlide {
 
         } else if (!intakeSlideMotor.isBusy()) {
 
-            //This is so that if you let go of the joystick, it immediately stops the slide from moving. Not a bug!!!
+            //This is so that if you let go of the joystick, it immediately stops the arm from moving. Not a bug!!!
 
-            targetPositionCount = Range.clip((int) intakeSlideMotor.getCurrentPosition(), LOW_HARDSTOP, HIGH_HARDSTOP);
+            targetPositionCount = Range.clip(intakeSlideMotor.getCurrentPosition(), LOW_HARDSTOP, HIGH_HARDSTOP);
             intakeSlideMotor.setTargetPosition(targetPositionCount);
 
             telemetry.addData("Manual Branch", "Stop moving");
@@ -79,8 +80,7 @@ public class IntakeSlide {
     public void loop() {
         if (!isAutonomous) readGamepad(gamepad);
         intakeSlideMotor.setTargetPosition(targetPositionCount);
-        telemetry.addData("Intake slide encoder counts", intakeSlideMotor.getCurrentPosition());
-        telemetry.update();
+        telemetry.addData("Slide encoder position", intakeSlideMotor.getCurrentPosition());
     }
 
     /*

@@ -16,16 +16,16 @@ public class LinearLift {
     private final ElapsedTime runtime = new ElapsedTime();
 
     static final int LOW_HARDSTOP = 0;
-    static final int HIGH_HARDSTOP = 0;
+    static final int HIGH_HARDSTOP = 3000;
     static final double ADJUSTMENT_MODIFIER = 30;
     static final double MAX_SPEED = 1;
 
-    static final int HIGH_BUCKET = 500; //todo: placeholder
-    static final int LOW_BUCKET =  100; //todo: same here
+    static final int HIGH_BUCKET = 3120; //todo: placeholder
+    static final int LOW_BUCKET =  1850; //todo: same here
 
     //todo: determine what speed to set the motors to & whether up speed is different than down speed
 
-    Boolean isAutonomous;
+    boolean isAutonomous;
 
     public int targetPositionCount;
 
@@ -38,8 +38,8 @@ public class LinearLift {
 
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor"); //port 2
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); //todo: figure out if we need a float or brake
-        liftMotor.setDirection(DcMotor.Direction.REVERSE);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //todo: figure out if we need a float or brake
+        liftMotor.setDirection(DcMotor.Direction.FORWARD);
         liftMotor.setTargetPosition(LOW_HARDSTOP);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftMotor.setPower(MAX_SPEED);
@@ -90,7 +90,7 @@ public class LinearLift {
         }
         liftMotor.setTargetPosition(targetPositionCount);
         telemetry.addData("Linear lift encoder position", liftMotor.getCurrentPosition());
-        telemetry.update();
+        telemetry.addData("Linear lift target position", targetPositionCount);
     }
 
 }

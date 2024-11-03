@@ -77,6 +77,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
     protected IntakeSlide intakeSlide;
     protected IntakeWrist intakeWrist;
     protected LinearLift linearLift;
+    protected Intake intake;
     protected ElapsedTime runtime = new ElapsedTime();
 
     private double robotHeading = 0;
@@ -138,6 +139,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
     static final double P_DRIVE_GAIN = 0.03;     // Larger is more responsive, but also less stable
 
 
+
     //this sets up for bulk reads!
     protected List<LynxModule> allHubs;
 
@@ -150,7 +152,8 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
         intakeSlide = new IntakeSlide(hardwareMap, telemetry, gamepad2, true);
         intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, true);
-        linearLift = new LinearLift(hardwareMap, telemetry,gamepad2, true);
+        linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, true);
+        intake = new Intake(hardwareMap, gamepad1, true);
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -208,6 +211,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         intakeSlide.loop();
         intakeWrist.loop();
         linearLift.loop();
+        intake.loop();
     }
 
     @Override
@@ -218,10 +222,10 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
             //telemetry.addData("", "Robot Heading = %4.0f", getRawHeading());
             telemetry.addData("bot heading:", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
 
-            telemetry.addData("left front starting:", frontLeftDrive.getCurrentPosition());
-            telemetry.addData("left back starting:", backLeftDrive.getCurrentPosition());
+            telemetry.addData("left front starting:" , frontLeftDrive.getCurrentPosition() );
+            telemetry.addData("left back starting:"  , backLeftDrive.getCurrentPosition()  );
             telemetry.addData("right front starting:", frontRightDrive.getCurrentPosition());
-            telemetry.addData("right back starting:", backRightDrive.getCurrentPosition());
+            telemetry.addData("right back starting:" , backRightDrive.getCurrentPosition() );
 
 
 
@@ -232,10 +236,10 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         tbegin = (double) getRuntime();
 
         // Set the encoders for closed loop speed control, and reset the heading.
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeftDrive.setMode( DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeftDrive.setMode(  DcMotor.RunMode.RUN_USING_ENCODER);
         frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRightDrive.setMode( DcMotor.RunMode.RUN_USING_ENCODER);
         resetHeading();
 
         runAutonomousProgram();
@@ -248,18 +252,12 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
 
     public void runAutonomousProgram() {
-        intakeWrist.setPosition(IntakeWrist.POSITION_TO_INTAKE);
+        driveStraight(DRIVE_SPEED, 8, 0);
+        turnToHeading(TURN_SPEED, -90);
+        driveStraight(DRIVE_SPEED, 23.7, -90);
+        turnToHeading(TURN_SPEED, -135);
 
-        /* Autonomous
-        * Preload a specimen
-        * Start in the middle ig???
-        * Move forward and hang specimen
-        * Turn 90 degrees and drive to the spike marks
-        * Turn again and grab sample
-        * Turn yet again and score in the high basket
-        * Repeat until there are no more spike mark samples
-        * If we have time:
-        * */
+
 
 
     }
@@ -592,5 +590,12 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         // Save a new heading offset equal to the current raw heading.
         headingOffset = getRawHeading();
         robotHeading = 0;
+    }
+    public void runIntake(int power, long time){
+        intake.leftIntakeServo.setPower(power);
+        intake.rightIntakeServo.setPower(power);
+        sleep(time);
+        intake.rightIntakeServo.setPower(0);
+        intake.leftIntakeServo.setPower(0);
     }
 }
