@@ -96,10 +96,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         DcMotor backLeftDrive = hardwareMap.get(DcMotor.class, "left_driveB");
 
         IntakeSlide intakeSlide = new IntakeSlide(hardwareMap, telemetry, gamepad2, false);
-//        Intake intake = new Intake(hardwareMap, gamepad1, false);
-//        IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, false);
-//        LinearLift linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
-//        Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2, false);
+        Intake intake = new Intake(hardwareMap, gamepad1, false);
+        IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, false);
+        LinearLift linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
+        Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2, false);
 
 
         // Initialize the IMU (Inertia Measurement Unit), used to detect the orientation of the robot
@@ -149,10 +149,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             double max;
 
             intakeSlide.loop();
-//            linearLift.loop();
-//            intakeWrist.loop();
-//            intake.loop();
-//            suspension.loop();
+            linearLift.loop();
+            intakeWrist.loop();
+            intake.loop();
+            suspension.loop();
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
 
             double y = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value ;
