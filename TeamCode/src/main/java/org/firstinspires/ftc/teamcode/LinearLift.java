@@ -20,8 +20,8 @@ public class LinearLift {
     static final double ADJUSTMENT_MODIFIER = 30;
     static final double MAX_SPEED = 1;
 
-    static final int HIGH_BUCKET = 3120; //todo: placeholder
-    static final int LOW_BUCKET =  1850; //todo: same here
+    static final int HIGH_BUCKET = 3120;
+    static final int LOW_BUCKET =  1850;
 
     //todo: determine what speed to set the motors to & whether up speed is different than down speed
 
