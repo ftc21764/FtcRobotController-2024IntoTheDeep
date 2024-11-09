@@ -95,11 +95,11 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
         DcMotor frontLeftDrive = hardwareMap.get(DcMotor.class, "left_driveF");
         DcMotor backLeftDrive = hardwareMap.get(DcMotor.class, "left_driveB");
 
-        IntakeSlide intakeSlide = new IntakeSlide(hardwareMap, telemetry, gamepad2, false);
-        Intake intake = new Intake(hardwareMap, gamepad1, false);
-        IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, false);
-        LinearLift linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
-        Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2, false);
+      IntakeSlide intakeSlide = new IntakeSlide(hardwareMap, telemetry, gamepad1, false);
+      Intake intake = new Intake(hardwareMap, gamepad1, false);
+      IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, false);
+      LinearLift linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
+      Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2, false);
 
 
         // Initialize the IMU (Inertia Measurement Unit), used to detect the orientation of the robot

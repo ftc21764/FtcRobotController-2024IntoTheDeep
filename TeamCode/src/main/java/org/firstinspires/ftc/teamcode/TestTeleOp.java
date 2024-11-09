@@ -11,13 +11,13 @@ public class TestTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        Intake intake = new Intake(hardwareMap, gamepad1, false);
+        Intake      intake      = new Intake(     hardwareMap, /*      */ gamepad1, false);
         IntakeSlide intakeSlide = new IntakeSlide(hardwareMap, telemetry, gamepad2, false);
         IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, false);
-        LinearLift lift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
-        Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2, false);
+        LinearLift  lift        = new LinearLift( hardwareMap, telemetry, gamepad2, false);
+        Suspension  suspension  = new Suspension( hardwareMap, telemetry, gamepad2, false);
 
-        telemetry.addLine("Servo Test OpMode Initiated");
+        telemetry.addLine("Test OpMode Initiated");
         telemetry.update();
 
         waitForStart();
@@ -30,6 +30,8 @@ public class TestTeleOp extends LinearOpMode {
             intakeWrist.loop();
             lift.loop();
             suspension.loop();
+
+
 //            telemetry.addData("Left Servo Position", intake.leftIntakeServo.getServoPosition());
 //            telemetry.addData("Right Servo Position", intake.rightIntakeServo.getServoPosition());
         }

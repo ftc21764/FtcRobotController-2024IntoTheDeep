@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -15,9 +16,9 @@ public class IntakeSlide {
     private final Telemetry telemetry;
     private final ElapsedTime runtime = new ElapsedTime();
 
-    static final int LOW_HARDSTOP = 2;
+    static final int LOW_HARDSTOP = 0;
     static final int HIGH_HARDSTOP = 1440; //2880
-    static final double MAX_SPEED = 0.5;
+    static final double MAX_SPEED = 0.1;
     static final double ADJUSTMENT_MODIFIER = 15;
 
     // todo: make future statics public so they can be used externally, in setPosition()
@@ -39,8 +40,8 @@ public class IntakeSlide {
         intakeSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); // todo: figure out which value is best
         intakeSlideMotor.setDirection(DcMotor.Direction.FORWARD);
         intakeSlideMotor.setTargetPosition(LOW_HARDSTOP);
-        intakeSlideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        intakeSlideMotor.setPower(MAX_SPEED);
+        intakeSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        intakeSlideMotor.setPower(MAX_SPEED);
 
         telemetry.addData("Intake slide motor position", "%7d", intakeSlideMotor.getCurrentPosition());
 
@@ -75,12 +76,20 @@ public class IntakeSlide {
             telemetry.addData("Manual Branch", "Running to Junction");
 
         }
+//        test gamepad controls
+//        if (gamepad.a){
+//            targetPositionCount = -1000;
+//        }
+//        if (gamepad.b){
+//            targetPositionCount = LOW_HARDSTOP;
+//        }
     }
 
     public void loop() {
         if (!isAutonomous) readGamepad(gamepad);
         intakeSlideMotor.setTargetPosition(targetPositionCount);
         telemetry.addData("Slide encoder position", intakeSlideMotor.getCurrentPosition());
+        telemetry.addData("Slide motor target", targetPositionCount);
     }
 
     /*
