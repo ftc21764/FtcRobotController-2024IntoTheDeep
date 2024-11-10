@@ -52,10 +52,10 @@ public class IntakeWrist {
     }
 
     private void readGamepad(Gamepad gamepad) {
-       if(gamepad.dpad_up){
+       if(gamepad.dpad_up && IntakeSlide.intakeSlideMotor.getCurrentPosition() > 300){
         setPosition(POSITION_TO_DELIVER);
        }
-       if(gamepad.dpad_down){
+       if(gamepad.dpad_down && IntakeSlide.intakeSlideMotor.getCurrentPosition() > 300){
                setPosition(POSITION_TO_INTAKE);
            }
        }
