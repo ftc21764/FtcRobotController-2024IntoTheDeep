@@ -18,7 +18,7 @@ public class IntakeWrist {
 
     static final int LOW_HARDSTOP = 0;
     static final int HIGH_HARDSTOP = 125; // placeholder
-    static final double MAX_SPEED = 0.2;
+    static final double MAX_SPEED = 1;
     // add statics as necessary
 
     static final int POSITION_TO_INTAKE = -117;
@@ -52,20 +52,32 @@ public class IntakeWrist {
     }
 
     private void readGamepad(Gamepad gamepad) {
-       if(gamepad.dpad_up && IntakeSlide.intakeSlideMotor.getCurrentPosition() > 300) {
+       if(gamepad.dpad_up) {
            wristMotor.setPower(MAX_SPEED);
-           while (!(wristMotor.getCurrentPosition() >= POSITION_TO_REST)) {setPosition(POSITION_TO_REST);}
+           telemetry.addData("wrist motor speed", wristMotor.getPower());
+           while (!(wristMotor.getCurrentPosition() >= POSITION_TO_REST)) {
+               setPosition(POSITION_TO_REST);
+               if (wristMotor.getCurrentPosition() < -40){
+                   wristMotor.setPower(0.2);
+                   telemetry.addData("Wrist motor speed", wristMotor.getPower());
+               }
+           }
            wristMotor.setPower(0);
        }
-       if(gamepad.dpad_down && IntakeSlide.intakeSlideMotor.getCurrentPosition() > 300) {
+       if (gamepad.dpad_down){
+           IntakeSlide.intakeSlideMotor.setPower(.85);
+           telemetry.addData("Wrist motor speed", wristMotor.getPower());
+           while((IntakeSlide.intakeSlideMotor.getCurrentPosition() < 300)) {IntakeSlide.intakeSlideMotor.setTargetPosition(300);}
+
+
            wristMotor.setPower(MAX_SPEED);
-           while (!(wristMotor.getCurrentPosition() <= POSITION_TO_INTAKE)) {setPosition(POSITION_TO_INTAKE);}
-           wristMotor.setPower(0);
-       }
-       else if (gamepad.dpad_down && IntakeSlide.intakeSlideMotor.getCurrentPosition() < 300){
-           IntakeSlide.intakeSlideMotor.setTargetPosition(350);
-           wristMotor.setPower(MAX_SPEED);
-           while (!(wristMotor.getCurrentPosition() <= POSITION_TO_INTAKE)) {setPosition(POSITION_TO_INTAKE);}
+           while (!(wristMotor.getCurrentPosition() <= POSITION_TO_INTAKE)) {
+               setPosition(POSITION_TO_INTAKE);
+               if (wristMotor.getCurrentPosition() > -40){
+                   wristMotor.setPower(0.2);
+                   telemetry.addData("Wrist motor speed", wristMotor.getPower());
+               }
+           }
            wristMotor.setPower(0);
        }
     }
@@ -74,6 +86,7 @@ public class IntakeWrist {
     public void loop() {
         if (!isAutonomous) readGamepad(gamepad);
         telemetry.addData("Wrist encoder count", wristMotor.getCurrentPosition());
+
     }
 
 

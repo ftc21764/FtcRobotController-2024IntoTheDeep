@@ -159,6 +159,11 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double rx = -gamepad1.right_stick_x;
 
+            if(gamepad1.a){
+                IntakeSlide.intakeSlideMotor.setTargetPosition(0);
+
+            }
+
             // Use the IMU to determine the orientation of the robot relative to its position when
             // initialized, and then calculate rotation
             //imu.getRobotOrientation()

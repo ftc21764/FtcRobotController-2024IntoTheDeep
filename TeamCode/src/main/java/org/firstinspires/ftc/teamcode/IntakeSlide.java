@@ -17,7 +17,7 @@ public class IntakeSlide {
     private final ElapsedTime runtime = new ElapsedTime();
 
     static final int LOW_HARDSTOP = 0;
-    static final int HIGH_HARDSTOP = 1440; //2880
+    static final int HIGH_HARDSTOP = 3000; //2880
     static final double MAX_SPEED = 1;
     static final double ADJUSTMENT_MODIFIER = 60;
 
