@@ -252,11 +252,12 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
 
     public void runAutonomousProgram() {
-        driveStraight(DRIVE_SPEED, 8, 0);
-        turnToHeading(TURN_SPEED, -90);
-        driveStraight(DRIVE_SPEED, 23.7, -90);
-        turnToHeading(TURN_SPEED, -135);
-
+        driveStraight(DRIVE_SPEED,26,0);
+        driveStraight(SLOW_DRIVE_SPEED, 4, 0);
+        /* raise arm to known level
+        * bring arm down
+        * back up
+        * */
 
 
 
