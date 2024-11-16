@@ -88,7 +88,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
     // These variables are declared here (as class members) so they can be updated in various methods,
     // but still be displayed by sendTelemetry()
     private double targetHeading = 0;
-    private double turnSpeed = 0;
+    private double turnSpeed = 0.1;
     private double leftSpeed = 0;
     private double rightSpeed = 0;
 
@@ -258,8 +258,11 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         * bring arm down
         * back up
         * */
-
-
+        driveStraight(DRIVE_SPEED, -15, 0);
+        turnToHeading(TURN_SPEED, -90);
+        driveStraight(DRIVE_SPEED, 13, -90);
+        turnToHeading(TURN_SPEED, -30);
+        intakeWrist.wristMotor.setTargetPosition(-117);
 
     }
 
