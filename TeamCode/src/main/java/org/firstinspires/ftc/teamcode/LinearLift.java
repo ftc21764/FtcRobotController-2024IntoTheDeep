@@ -19,7 +19,7 @@ public class LinearLift {
     static final int LOW_HARDSTOP = 0;
     static final int HIGH_HARDSTOP = 3000;
     static final double ADJUSTMENT_MODIFIER = 30;
-    static final double MAX_SPEED = 0.1;
+    static final double MAX_SPEED = 0.5;
 
     static final int HIGH_BUCKET = 3120;
     static final int LOW_BUCKET =  1850;
@@ -72,15 +72,17 @@ public class LinearLift {
             targetPositionCount = Range.clip((int) liftMotor.getCurrentPosition(), LOW_HARDSTOP, HIGH_HARDSTOP);
             liftMotor.setTargetPosition(targetPositionCount);
 
-            telemetry.addData("Manual Branch", "Stop moving");
-        } else {
+            telemetry.addData("Manual Branch", "Stop moving");}
+        else {
             telemetry.addData("Manual Branch", "Running to Junction");
 
         }
-
-//        if (gamepad.a) setPosition(LOW_HARDSTOP);
-//        if (gamepad.b) setPosition(LOW_BUCKET);
-//        if (gamepad.y) setPosition(HIGH_BUCKET);
+        if (gamepad.a){
+            targetPositionCount = LOW_BUCKET;
+        }
+        if (gamepad.b){
+           liftMotor.setPower(0);
+        }
     }
 
     public void loop() { //if linear slide doesnt run in auto, this parameter will be unnecessary

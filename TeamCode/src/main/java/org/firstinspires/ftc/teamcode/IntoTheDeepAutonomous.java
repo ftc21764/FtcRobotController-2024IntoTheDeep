@@ -254,15 +254,37 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
     public void runAutonomousProgram() {
         driveStraight(DRIVE_SPEED,26,0);
         driveStraight(SLOW_DRIVE_SPEED, 4, 0);
+
+
+
         /* raise arm to known level
         * bring arm down
         * back up
         * */
         driveStraight(DRIVE_SPEED, -15, 0);
         turnToHeading(TURN_SPEED, -90);
-        driveStraight(DRIVE_SPEED, 13, -90);
+        driveStraight(DRIVE_SPEED, 21, -90);
         turnToHeading(TURN_SPEED, -30);
-        intakeWrist.wristMotor.setTargetPosition(-117);
+
+        telemetry.addLine("testing");
+
+        IntakeSlide.intakeSlideMotor.setPower(.85);
+        while(IntakeSlide.intakeSlideMotor.isBusy() && opModeIsActive()) {
+            IntakeSlide.intakeSlideMotor.setTargetPosition(150);
+        }
+
+        while(IntakeWrist.wristMotor.isBusy() && opModeIsActive()) {
+            IntakeWrist.wristMotor.setTargetPosition(-117);
+            telemetry.addLine("Woohoo!");
+        }
+
+//        resetRuntime();
+//        sleep(1000);
+      runIntake(1, 3000);
+      IntakeSlide.intakeSlideMotor.setTargetPosition(2350);
+
+      IntakeWrist.wristMotor.setTargetPosition(-80);
+      IntakeSlide.intakeSlideMotor.setTargetPosition(0);
 
     }
 
@@ -487,7 +509,6 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
     // **********  LOW Level driving functions.  ********************
 
-    // todo: something here isn't working right/left (haha)
     /**
      * This method uses a Proportional Controller to determine how much steering correction is required.
      *
@@ -505,6 +526,8 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         headingError = targetHeading - robotHeading;
 
         // Normalize the error to be within +/- 180 degrees
+
+
         while (headingError >   180) headingError -= 360;
         while (headingError <= -180) headingError += 360;
 
@@ -596,8 +619,8 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         robotHeading = 0;
     }
     public void runIntake(int power, long time){
-        intake.leftIntakeServo.setPower(power);
-        intake.rightIntakeServo.setPower(power);
+        intake.leftIntakeServo.setPower(-power);
+        intake.rightIntakeServo.setPower(-power);
         sleep(time);
         intake.rightIntakeServo.setPower(0);
         intake.leftIntakeServo.setPower(0);
