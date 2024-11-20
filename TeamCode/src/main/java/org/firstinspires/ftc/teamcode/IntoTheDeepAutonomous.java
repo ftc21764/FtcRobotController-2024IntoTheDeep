@@ -164,7 +164,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.REVERSE);
 
-        // TODO: Figure out if it's better to use a static variable for imu
+
         // and then avoid re-initializing it if you're in teleop mode and it already exists.
         // That way the current orientation is not reset when the opmode starts.
 
@@ -269,22 +269,21 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         telemetry.addLine("testing");
 
         IntakeSlide.intakeSlideMotor.setPower(.85);
-        while(IntakeSlide.intakeSlideMotor.isBusy() && opModeIsActive()) {
-            IntakeSlide.intakeSlideMotor.setTargetPosition(150);
-        }
-
-        while(IntakeWrist.wristMotor.isBusy() && opModeIsActive()) {
-            IntakeWrist.wristMotor.setTargetPosition(-117);
-            telemetry.addLine("Woohoo!");
-        }
+//        IntakeSlide.intakeSlideMotor.setTargetPosition(750);
+//        while((IntakeSlide.intakeSlideMotor.getCurrentPosition() < 650) && opModeIsActive()) {
+//        }
+        IntakeWrist.wristMotor.setTargetPosition(-114);
+//        while((IntakeWrist.wristMotor.getCurrentPosition() >= -117) && opModeIsActive()) {
+//        }
 
 //        resetRuntime();
 //        sleep(1000);
-      runIntake(1, 3000);
-      IntakeSlide.intakeSlideMotor.setTargetPosition(2350);
+//
+        IntakeSlide.intakeSlideMotor.setTargetPosition(2350);
+        runIntake(1, 3000);
 
-      IntakeWrist.wristMotor.setTargetPosition(-80);
-      IntakeSlide.intakeSlideMotor.setTargetPosition(0);
+        IntakeWrist.wristMotor.setTargetPosition(-80);
+        IntakeSlide.intakeSlideMotor.setTargetPosition(0);
 
     }
 

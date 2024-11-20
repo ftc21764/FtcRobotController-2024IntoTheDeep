@@ -75,7 +75,7 @@ public class IntakeWrist {
            while (!(wristMotor.getCurrentPosition() <= POSITION_TO_INTAKE)) {
                setPosition(POSITION_TO_INTAKE);
                if (wristMotor.getCurrentPosition() > -40){
-                   wristMotor.setPower(0.2);
+                   wristMotor.setPower(-0.1 );
                    telemetry.addData("Wrist motor speed", wristMotor.getPower());
                }
            }
