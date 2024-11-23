@@ -31,6 +31,8 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import android.widget.GridLayout;
+
 import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -100,7 +102,8 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
       IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, false);
       LinearLift linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
       Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2, false);
-      SpecimenServo specimenServo = new SpecimenServo(hardwareMap, gamepad2, false);
+      SpecimenServo specimenServo = new SpecimenServo(hardwareMap, gamepad1, false);
+      IntoTheDeepAutonomous intoTheDeepAutonomous = new IntoTheDeepAutonomous();
 
 
         // Initialize the IMU (Inertia Measurement Unit), used to detect the orientation of the robot
@@ -161,9 +164,36 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             double x = gamepad1.left_stick_x;
             double rx = -gamepad1.right_stick_x;
 
-            if(gamepad1.a){
-                IntakeSlide.intakeSlideMotor.setTargetPosition(0);
+//            if (gamepad1.left_bumper){
+//                specimenServo.specimenServo.setServoPosition(SpecimenServo.CLOSED_POSITION);
+//                sleep(1000);
+//                telemetry.addLine("reached start of lift");
+//                LinearLift.liftMotor.setTargetPosition(2595);
+//                telemetry.addLine("reached end of lift");
+//                SpecimenServo.isOpen = false;
+//            }
 
+            if(gamepad1.a){
+               specimenServo.CloseSpecimen();
+               sleep(1000);
+               LinearLift.liftMotor.setTargetPosition(2595);
+            }
+            if(gamepad1.b){
+                LinearLift.liftMotor.setTargetPosition(2000);
+                sleep(1000);
+                specimenServo.OpenSpecimen();
+                sleep(1000);
+                frontRightDrive.setPower(-1);
+                backRightDrive.setPower(-1);
+                frontLeftDrive.setPower(-1);
+                backLeftDrive.setPower(-1);
+                sleep(100);
+                frontRightDrive.setPower(0);
+                backRightDrive.setPower(0);
+                frontLeftDrive.setPower(0);
+                backLeftDrive.setPower(0);
+                sleep(500);
+                LinearLift.liftMotor.setTargetPosition(0);
             }
 
             // Use the IMU to determine the orientation of the robot relative to its position when
@@ -215,24 +245,18 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             //      by adjusting your Robot Configuration if necessary.
             //   2) Then make sure they run in the correct direction by modifying the
             //      the setDirection() calls above.
-            if (gamepad1.left_bumper) {
-                leftFrontPower = gamepad1.x ? 1.0 : 0.0;  // X gamepad
-                leftBackPower = gamepad1.a ? 1.0 : 0.0;   // A gamepad
-                rightFrontPower = gamepad1.y ? 1.0 : 0.0; // Y gamepad
-                rightBackPower = gamepad1.b ? 1.0 : 0.0;  // B gamepad
-            }
+//            if (gamepad1.left_bumper) {
+//                leftFrontPower = gamepad1.x ? 1.0 : 0.0;  // X gamepad
+//                leftBackPower = gamepad1.a ? 1.0 : 0.0;   // A gamepad
+//                rightFrontPower = gamepad1.y ? 1.0 : 0.0; // Y gamepad
+//                rightBackPower = gamepad1.b ? 1.0 : 0.0;  // B gamepad
+//            }
 
             double speedModifier;
-            if (!(gamepad1.left_stick_button || gamepad1.right_bumper)) {
+            if (!(gamepad1.left_stick_button  /*gamepad1.right_bumper*/)) {
                 speedModifier = 0.5;
             } else {
                 speedModifier = 1;
-            }
-
-            if (gamepad1.back) {
-                gamepad1.rumble(100);
-                SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, new File("C:\\Users\\TekersRobotics\\StudioProjects\\FtcRobotController-2023CenterStage\\TeamCode\\src\\main\\java\\org\\firstinspires\\ftc\\teamcode\\Alert.mp3"));
-                imu.resetYaw();
             }
 
             if(orientation.getYaw(AngleUnit.RADIANS) == 0.0) {

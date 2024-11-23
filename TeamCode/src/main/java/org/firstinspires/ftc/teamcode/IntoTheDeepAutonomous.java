@@ -277,7 +277,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 //        }
 
 //        resetRuntime();
-//        sleep(1000);
+        sleep(1000);
 //
         IntakeSlide.intakeSlideMotor.setTargetPosition(2350);
         runIntake(1, 3000);

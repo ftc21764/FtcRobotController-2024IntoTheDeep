@@ -14,15 +14,24 @@ public class SpecimenServo {
     static final double CLOSED_POSITION = 0.25;
     final boolean isAutonomous;
 
+
     public SpecimenServo(HardwareMap hardwareMap, Gamepad gamepad, boolean isAutonomous){
         this.gamepad = gamepad;
         this.isAutonomous = isAutonomous;
         specimenServo.init(hardwareMap,"specimenServo");
     }
+    public void CloseSpecimen (){
+        specimenServo.setServoPosition(CLOSED_POSITION);
+    }
+    public void OpenSpecimen (){
+        specimenServo.setServoPosition(OPEN_POSITION);
+    }
     public void loop(){
-        if(gamepad.x){specimenServo.setServoPosition(OPEN_POSITION);
-        } else {
-            specimenServo.setServoPosition(CLOSED_POSITION);
+        if(gamepad.x){
+            OpenSpecimen();
+        }
+        if (gamepad.y){
+            CloseSpecimen();
         }
     }
 }

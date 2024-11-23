@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -37,7 +38,7 @@ public class IntakeWrist {
         wristMotor = hardwareMap.get(DcMotor.class, "wristMotor"); // port 1
         wristMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         wristMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        wristMotor.setDirection(DcMotor.Direction.REVERSE);
+        wristMotor.setDirection(DcMotor.Direction.FORWARD);
         wristMotor.setTargetPosition(LOW_HARDSTOP);
         wristMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         wristMotor.setPower(MAX_SPEED);

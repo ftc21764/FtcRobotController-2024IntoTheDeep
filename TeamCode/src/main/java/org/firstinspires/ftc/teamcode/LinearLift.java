@@ -29,6 +29,7 @@ public class LinearLift {
     boolean isAutonomous;
 
     public int targetPositionCount;
+    static final int ABOVE_HIGH_CHAMBER_POSITION =  2595;
 
     public LinearLift(HardwareMap hardwareMap, Telemetry telemetry, Gamepad gamepad, boolean isAutonomous) {
 
@@ -42,8 +43,8 @@ public class LinearLift {
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //todo: figure out if we need a float or brake
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
         liftMotor.setTargetPosition(LOW_HARDSTOP);
-        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        liftMotor.setPower(MAX_SPEED);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftMotor.setPower(MAX_SPEED);
 
 
     }
@@ -59,29 +60,29 @@ public class LinearLift {
     }
 
     private void readGamepad(Gamepad gamepad) {
-        if (gamepad.left_stick_y > 0.1 || gamepad.left_stick_y < -0.1 ) {
-
-            targetPositionCount = Range.clip((int)(targetPositionCount + ADJUSTMENT_MODIFIER*-gamepad.left_stick_y), LOW_HARDSTOP, HIGH_HARDSTOP);
-
-            telemetry.addData("Manual Branch", "Adjustment made");
-
-        } else if (!liftMotor.isBusy()) {
-
-            //This is so that if you let go of the joystick, it immediately stops the slide from moving. Not a bug!!!
-
-            targetPositionCount = Range.clip((int) liftMotor.getCurrentPosition(), LOW_HARDSTOP, HIGH_HARDSTOP);
-            liftMotor.setTargetPosition(targetPositionCount);
-
-            telemetry.addData("Manual Branch", "Stop moving");}
-        else {
-            telemetry.addData("Manual Branch", "Running to Junction");
-
-        }
+//        if (gamepad.left_stick_y > 0.1 || gamepad.left_stick_y < -0.1 ) {
+//
+//            targetPositionCount = Range.clip((int)(targetPositionCount + ADJUSTMENT_MODIFIER*-gamepad.left_stick_y), LOW_HARDSTOP, HIGH_HARDSTOP);
+//
+//            telemetry.addData("Manual Branch", "Adjustment made");
+//
+//        } else if (!liftMotor.isBusy()) {
+//
+//            //This is so that if you let go of the joystick, it immediately stops the slide from moving. Not a bug!!!
+//
+//            targetPositionCount = Range.clip((int) liftMotor.getCurrentPosition(), LOW_HARDSTOP, HIGH_HARDSTOP);
+//            liftMotor.setTargetPosition(targetPositionCount);
+//
+//            telemetry.addData("Manual Branch", "Stop moving");}
+//        else {
+//            telemetry.addData("Manual Branch", "Running to Junction");
+//
+//        }
         if (gamepad.a){
             targetPositionCount = LOW_BUCKET;
         }
         if (gamepad.b){
-           liftMotor.setPower(0);
+           liftMotor.setTargetPosition(0);
         }
     }
 
@@ -89,7 +90,6 @@ public class LinearLift {
         if (!isAutonomous) {
             readGamepad(gamepad);
         }
-        liftMotor.setTargetPosition(targetPositionCount);
         telemetry.addData("Linear lift encoder position", liftMotor.getCurrentPosition());
         telemetry.addData("Linear lift target position", targetPositionCount);
     }
