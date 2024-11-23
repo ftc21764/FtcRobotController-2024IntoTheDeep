@@ -100,6 +100,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
       IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, false);
       LinearLift linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
       Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2, false);
+      SpecimenServo specimenServo = new SpecimenServo(hardwareMap, gamepad2, false);
 
 
         // Initialize the IMU (Inertia Measurement Unit), used to detect the orientation of the robot
@@ -153,6 +154,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             intakeWrist.loop();
             intake.loop();
             suspension.loop();
+            specimenServo.loop();
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
 
             double y = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value ;

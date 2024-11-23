@@ -42,8 +42,8 @@ public class LinearLift {
         liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); //todo: figure out if we need a float or brake
         liftMotor.setDirection(DcMotor.Direction.REVERSE);
         liftMotor.setTargetPosition(LOW_HARDSTOP);
-        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotor.setPower(MAX_SPEED);
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        liftMotor.setPower(MAX_SPEED);
 
 
     }
