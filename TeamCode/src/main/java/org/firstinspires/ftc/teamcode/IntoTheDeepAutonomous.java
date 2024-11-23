@@ -78,6 +78,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
     protected IntakeWrist intakeWrist;
     protected LinearLift linearLift;
     protected Intake intake;
+    protected SpecimenServo specimenServo;
     protected ElapsedTime runtime = new ElapsedTime();
 
     private double robotHeading = 0;
@@ -154,6 +155,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, true);
         linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, true);
         intake = new Intake(hardwareMap, gamepad1, true);
+        specimenServo = new SpecimenServo(hardwareMap);
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -252,39 +254,40 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
 
     public void runAutonomousProgram() {
+        specimenServo.specimenServo.setServoPosition(0.25);
+        LinearLift.liftMotor.setTargetPosition(2503);
+        sleep(500);
         driveStraight(DRIVE_SPEED,26,0);
-        driveStraight(SLOW_DRIVE_SPEED, 4, 0);
-
-
-
-        /* raise arm to known level
-        * bring arm down
-        * back up
-        * */
+        driveStraight(SLOW_DRIVE_SPEED, 3.75, 0);
+        LinearLift.liftMotor.setTargetPosition(1908);
+        sleep(1000);
+        specimenServo.specimenServo.setServoPosition(0.5);
+        sleep(1000);
+        LinearLift.liftMotor.setTargetPosition(0);
         driveStraight(DRIVE_SPEED, -15, 0);
         turnToHeading(TURN_SPEED, -90);
         driveStraight(DRIVE_SPEED, 21, -90);
         turnToHeading(TURN_SPEED, -30);
-
-        telemetry.addLine("testing");
-
-        IntakeSlide.intakeSlideMotor.setPower(.85);
-//        IntakeSlide.intakeSlideMotor.setTargetPosition(750);
-//        while((IntakeSlide.intakeSlideMotor.getCurrentPosition() < 650) && opModeIsActive()) {
-//        }
-        IntakeWrist.wristMotor.setTargetPosition(-114);
-//        while((IntakeWrist.wristMotor.getCurrentPosition() >= -117) && opModeIsActive()) {
-//        }
-
-//        resetRuntime();
-        sleep(1000);
 //
-        IntakeSlide.intakeSlideMotor.setTargetPosition(2350);
-        runIntake(1, 3000);
-
-        IntakeWrist.wristMotor.setTargetPosition(-80);
-        IntakeSlide.intakeSlideMotor.setTargetPosition(0);
-
+//        telemetry.addLine("testing");
+//
+//        IntakeSlide.intakeSlideMotor.setPower(.85);
+////        IntakeSlide.intakeSlideMotor.setTargetPosition(750);
+////        while((IntakeSlide.intakeSlideMotor.getCurrentPosition() < 650) && opModeIsActive()) {
+////        }
+//        IntakeWrist.wristMotor.setTargetPosition(-114);
+////        while((IntakeWrist.wristMotor.getCurrentPosition() >= -117) && opModeIsActive()) {
+////        }
+//
+////        resetRuntime();
+//        sleep(1000);
+////
+//        IntakeSlide.intakeSlideMotor.setTargetPosition(2350);
+//        runIntake(1, 3000);
+//
+//        IntakeWrist.wristMotor.setTargetPosition(-80);
+//        IntakeSlide.intakeSlideMotor.setTargetPosition(0);
+//
     }
 
     /*

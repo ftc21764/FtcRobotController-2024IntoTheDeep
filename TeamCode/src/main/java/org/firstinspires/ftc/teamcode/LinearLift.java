@@ -17,9 +17,9 @@ public class LinearLift {
     private final ElapsedTime runtime = new ElapsedTime();
 
     static final int LOW_HARDSTOP = 0;
-    static final int HIGH_HARDSTOP = 3000;
+//    static final int HIGH_HARDSTOP = 3000;
     static final double ADJUSTMENT_MODIFIER = 30;
-    static final double MAX_SPEED = 0.5;
+    static final double MAX_SPEED = 0.75;
 
     static final int HIGH_BUCKET = 3120;
     static final int LOW_BUCKET =  1850;
@@ -27,9 +27,12 @@ public class LinearLift {
     //todo: determine what speed to set the motors to & whether up speed is different than down speed
 
     boolean isAutonomous;
+    static double liftSpeed;
 
     public int targetPositionCount;
-    static final int ABOVE_HIGH_CHAMBER_POSITION =  2595;
+    static final int POSITION_TO_DELIVER_HIGH =  2595;
+    static final int POSITION_TO_CLIP_HIGH = 2000;
+
 
     public LinearLift(HardwareMap hardwareMap, Telemetry telemetry, Gamepad gamepad, boolean isAutonomous) {
 
@@ -37,6 +40,11 @@ public class LinearLift {
         this.gamepad = gamepad;
         this.telemetry = telemetry;
 
+        if(isAutonomous){
+            liftSpeed = 0.9;
+        } else {
+            liftSpeed = MAX_SPEED;
+        }
 
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor"); //port 2
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -78,12 +86,12 @@ public class LinearLift {
 //            telemetry.addData("Manual Branch", "Running to Junction");
 //
 //        }
-        if (gamepad.a){
-            targetPositionCount = LOW_BUCKET;
-        }
-        if (gamepad.b){
-           liftMotor.setTargetPosition(0);
-        }
+//        if (gamepad.a){
+//            liftMotor.setTargetPosition(POSITION_TO_DELIVER_HIGH);
+//        }
+//        if (gamepad.b){
+//           liftMotor.setTargetPosition(POSITION_TO_CLIP_HIGH);
+//        }
     }
 
     public void loop() { //if linear slide doesnt run in auto, this parameter will be unnecessary

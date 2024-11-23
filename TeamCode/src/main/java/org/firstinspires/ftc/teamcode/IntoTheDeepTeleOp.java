@@ -102,7 +102,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
       IntakeWrist intakeWrist = new IntakeWrist(hardwareMap, telemetry, gamepad2, false);
       LinearLift linearLift = new LinearLift(hardwareMap, telemetry, gamepad2, false);
       Suspension suspension = new Suspension(hardwareMap, telemetry, gamepad2, false);
-      SpecimenServo specimenServo = new SpecimenServo(hardwareMap, gamepad1, false);
+      SpecimenServo specimenServo = new SpecimenServo(hardwareMap);//, gamepad1, false);
       IntoTheDeepAutonomous intoTheDeepAutonomous = new IntoTheDeepAutonomous();
 
 
@@ -157,7 +157,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             intakeWrist.loop();
             intake.loop();
             suspension.loop();
-            specimenServo.loop();
+//            specimenServo.loop();
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
 
             double y = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value ;
@@ -176,10 +176,10 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             if(gamepad1.a){
                specimenServo.CloseSpecimen();
                sleep(1000);
-               LinearLift.liftMotor.setTargetPosition(2595);
+               LinearLift.liftMotor.setTargetPosition(2503);
             }
             if(gamepad1.b){
-                LinearLift.liftMotor.setTargetPosition(2000);
+                LinearLift.liftMotor.setTargetPosition(1908);
                 sleep(1000);
                 specimenServo.OpenSpecimen();
                 sleep(1000);
@@ -194,6 +194,18 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 backLeftDrive.setPower(0);
                 sleep(500);
                 LinearLift.liftMotor.setTargetPosition(0);
+            }
+            while(gamepad1.dpad_right){
+                frontRightDrive.setPower(0.5);
+                backRightDrive.setPower(-0.5);
+                frontLeftDrive.setPower(-0.5);
+                backLeftDrive.setPower(0.5);
+            }
+            while(gamepad1.dpad_left){
+                frontRightDrive.setPower(-0.5);
+                backRightDrive.setPower(0.5);
+                frontLeftDrive.setPower(0.5);
+                backLeftDrive.setPower(-0.5);
             }
 
             // Use the IMU to determine the orientation of the robot relative to its position when
@@ -243,7 +255,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             // Each button should make the corresponding motor run FORWARD.
             //   1) First get all the motors to take to correct positions on the robot
             //      by adjusting your Robot Configuration if necessary.
-            //   2) Then make sure they run in the correct direction by modifying the
+            //   2) Then make sure they run in the correct direction by modifying the screen to the ring to the pen to the king
             //      the setDirection() calls above.
 //            if (gamepad1.left_bumper) {
 //                leftFrontPower = gamepad1.x ? 1.0 : 0.0;  // X gamepad
