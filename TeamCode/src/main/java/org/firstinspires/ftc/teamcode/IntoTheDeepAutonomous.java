@@ -210,7 +210,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
 
     protected void mechanismLoop() {
-        intakeSlide.loop();
+//        intakeSlide.loop();
 //        intakeWrist.loop();
         linearLift.loop();
         intake.loop();
