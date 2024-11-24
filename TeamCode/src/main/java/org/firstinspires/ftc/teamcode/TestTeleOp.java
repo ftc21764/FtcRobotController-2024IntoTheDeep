@@ -27,7 +27,7 @@ public class TestTeleOp extends LinearOpMode {
         while (opModeIsActive()) {
             intake.loop();
             intakeSlide.loop();
-            intakeWrist.loop();
+//            intakeWrist.loop();
             lift.loop();
             suspension.loop();
 

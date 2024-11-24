@@ -154,7 +154,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
 
             intakeSlide.loop();
             linearLift.loop();
-            intakeWrist.loop();
+//            intakeWrist.loop();
             intake.loop();
             suspension.loop();
 //            specimenServo.loop();
@@ -196,18 +196,23 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
                 LinearLift.liftMotor.setTargetPosition(0);
             }
             while(gamepad1.dpad_right){
-                frontRightDrive.setPower(0.5);
-                backRightDrive.setPower(-0.5);
-                frontLeftDrive.setPower(-0.5);
-                backLeftDrive.setPower(0.5);
+                frontRightDrive.setPower(0.4);
+                backRightDrive.setPower(-0.4);
+                frontLeftDrive.setPower(-0.4);
+                backLeftDrive.setPower(0.4);
             }
             while(gamepad1.dpad_left){
-                frontRightDrive.setPower(-0.5);
-                backRightDrive.setPower(0.5);
-                frontLeftDrive.setPower(0.5);
-                backLeftDrive.setPower(-0.5);
+                frontRightDrive.setPower(-0.4);
+                backRightDrive.setPower(0.4);
+                frontLeftDrive.setPower(0.4);
+                backLeftDrive.setPower(-0.4);
             }
-
+            if(gamepad2.dpad_up){
+                intakeWrist.WristUp();
+            }
+            if(gamepad2.dpad_down){
+                intakeWrist.WristDown();
+            }
             // Use the IMU to determine the orientation of the robot relative to its position when
             // initialized, and then calculate rotation
             //imu.getRobotOrientation()

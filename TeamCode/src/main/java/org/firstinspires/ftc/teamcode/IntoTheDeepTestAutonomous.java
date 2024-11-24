@@ -206,7 +206,7 @@ public class IntoTheDeepTestAutonomous extends LinearOpMode {
 
     protected void mechanismLoop() {
         intakeSlide.loop();
-        intakeWrist.loop();
+//        intakeWrist.loop();
         linearLift.loop();
     }
 

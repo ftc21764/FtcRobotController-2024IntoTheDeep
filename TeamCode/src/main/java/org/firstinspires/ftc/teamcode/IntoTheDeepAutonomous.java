@@ -211,7 +211,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
 
     protected void mechanismLoop() {
         intakeSlide.loop();
-        intakeWrist.loop();
+//        intakeWrist.loop();
         linearLift.loop();
         intake.loop();
     }
@@ -266,28 +266,34 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         LinearLift.liftMotor.setTargetPosition(0);
         driveStraight(DRIVE_SPEED, -15, 0);
         turnToHeading(TURN_SPEED, -90);
-        driveStraight(DRIVE_SPEED, 21, -90);
-        turnToHeading(TURN_SPEED, -30);
-//
+        driveStraight(DRIVE_SPEED, 23, -90);
+        turnToHeading(TURN_SPEED, 0);
+        driveStraight(DRIVE_SPEED, -8, 0);
+//        turnToHeading(TURN_SPEED, -30);
+////
 //        telemetry.addLine("testing");
 //
 //        IntakeSlide.intakeSlideMotor.setPower(.85);
 ////        IntakeSlide.intakeSlideMotor.setTargetPosition(750);
 ////        while((IntakeSlide.intakeSlideMotor.getCurrentPosition() < 650) && opModeIsActive()) {
 ////        }
-//        IntakeWrist.wristMotor.setTargetPosition(-114);
+////        IntakeWrist.wristMotor.setTargetPosition(-114);
 ////        while((IntakeWrist.wristMotor.getCurrentPosition() >= -117) && opModeIsActive()) {
 ////        }
 //
 ////        resetRuntime();
 //        sleep(1000);
 ////
-//        IntakeSlide.intakeSlideMotor.setTargetPosition(2350);
+//        IntakeSlide.intakeSlideMotor.setTargetPosition(2050);
+//        sleep(2000);
+//        IntakeWrist.wristMotor.setTargetPosition(-114);
+//        sleep(1000);
+//        IntakeSlide.intakeSlideMotor.setTargetPosition(2450);
 //        runIntake(1, 3000);
 //
 //        IntakeWrist.wristMotor.setTargetPosition(-80);
 //        IntakeSlide.intakeSlideMotor.setTargetPosition(0);
-//
+
     }
 
     /*
