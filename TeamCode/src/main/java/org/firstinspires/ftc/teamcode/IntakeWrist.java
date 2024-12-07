@@ -22,7 +22,7 @@ public class IntakeWrist {
     static final double MAX_SPEED = 1;
     // add statics as necessary
 
-    static final int POSITION_TO_INTAKE = -117;
+    static final int POSITION_TO_INTAKE = -110;
     static final int POSITION_TO_DELIVER = -80;
     static final int POSITION_TO_REST = -10;
     final boolean isAutonomous; // will not be necessary if wrist is automated

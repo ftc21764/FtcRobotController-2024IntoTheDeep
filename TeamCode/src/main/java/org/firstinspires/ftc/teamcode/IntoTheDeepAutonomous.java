@@ -267,9 +267,11 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -15, 0);
         turnToHeading(TURN_SPEED, -90);
         driveStraight(DRIVE_SPEED, 23, -90);
-        turnToHeading(TURN_SPEED, 0);
-        driveStraight(DRIVE_SPEED, -8, 0);
-//        turnToHeading(TURN_SPEED, -30);
+        turnToHeading(TURN_SPEED, 180);
+        driveStraight(SLOW_DRIVE_SPEED, 1, 0);
+        sleep(1000);
+
+
 ////
 //        telemetry.addLine("testing");
 //

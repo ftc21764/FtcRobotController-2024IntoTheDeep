@@ -219,7 +219,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             //double botHeading = -imu.getAngularOrientation().firstAngle;
 
             YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-            double botHeading = orientation.getYaw(AngleUnit.RADIANS);
+            double botHeading = 0.0; /*orientation.getYaw(AngleUnit.RADIANS);*/
             double rotX = x * Math.cos(botHeading) + y * Math.sin(botHeading);
             double rotY = -x * Math.sin(botHeading) + y * Math.cos(botHeading);
 
@@ -294,6 +294,7 @@ public class IntoTheDeepTeleOp extends LinearOpMode {
             telemetry.addLine("");
             telemetry.addData("IMU orientation", botHeading);
             telemetry.addLine("");
+            telemetry.addData("Wrist encoder count", IntakeWrist.wristMotor.getCurrentPosition());
             //telemetry.addData("Door servo position", doorServo.doorServo.getServoPosition());
             telemetry.update();
         }
