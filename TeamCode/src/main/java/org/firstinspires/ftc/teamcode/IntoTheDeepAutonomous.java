@@ -268,7 +268,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         turnToHeading(TURN_SPEED, -90);
         driveStraight(DRIVE_SPEED, 23, -90);
         turnToHeading(TURN_SPEED, 180);
-        driveStraight(SLOW_DRIVE_SPEED, 1, 0);
+        driveStraight(SLOW_DRIVE_SPEED, 9, 0);
         sleep(1000);
 
 

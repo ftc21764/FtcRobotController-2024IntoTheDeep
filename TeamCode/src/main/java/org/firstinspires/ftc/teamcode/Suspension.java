@@ -19,8 +19,8 @@ public class Suspension {
 
     static final int LOW_HARDSTOP = 0;
     static final int HIGH_HARDSTOP = 1000; // placeholder
-    static final int HANG_POSITION_UP = -5115;
-    static final int HANG_POSITION_DOWN = -10; //-3033
+    static final int HANG_POSITION_UP = -7352;
+    static final int HANG_POSITION_DOWN = -5043; //-3033
     static final double MAX_SPEED = 0.5;
 
     static final int ADJUSTMENT_MODIFIER = 30;
