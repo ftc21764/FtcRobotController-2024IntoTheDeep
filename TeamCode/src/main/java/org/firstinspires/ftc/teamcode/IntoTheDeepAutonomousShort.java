@@ -64,9 +64,9 @@ import java.util.Objects;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Into The Deep Autonomous", group="Robot")
+@Autonomous(name="Into The Deep Autonomous Short", group="Robot")
 //@Disabled
-public class IntoTheDeepAutonomous extends LinearOpMode {
+public class IntoTheDeepAutonomousShort extends LinearOpMode {
 
     /* Declare OpMode members. */
     protected DcMotor frontLeftDrive = null;
@@ -138,8 +138,6 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
     // Decrease these numbers if the heading does not settle on the correct value (eg: very agile robot with omni wheels)
     static final double P_TURN_GAIN = 0.02;     // Larger is more responsive, but also less stable
     static final double P_DRIVE_GAIN = 0.03;     // Larger is more responsive, but also less stable
-
-    static double encoderPass = 0;
 
 
 
@@ -258,7 +256,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
     public void runAutonomousProgram() {
         specimenServo.specimenServo.setServoPosition(0.25);
         LinearLift.liftMotor.setTargetPosition(2503);
-//        sleep(500);
+        sleep(500);
         driveStraight(DRIVE_SPEED,26,0);
         driveStraight(SLOW_DRIVE_SPEED, 3.75, 0);
         LinearLift.liftMotor.setTargetPosition(1908);
@@ -269,12 +267,7 @@ public class IntoTheDeepAutonomous extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -15, 0);
         turnToHeading(TURN_SPEED, -90);
         driveStraight(DRIVE_SPEED, 23, -90);
-        turnToHeading(TURN_SPEED, 180);
-        driveStraight(SLOW_DRIVE_SPEED, 9, 0);
-        sleep(1000);
-        LinearLift.liftMotor.setTargetPosition(1000);
 
-//        encoderPass = linearLift.liftMotor.getCurrentPosition();
 
 
 ////
