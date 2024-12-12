@@ -39,13 +39,13 @@ public class Suspension {
         this.gamepad = gamepad;
         this.telemetry = telemetry;
 
-        suspensionMotor = hardwareMap.get(DcMotor.class,"suspensionMotor");
+        suspensionMotor = hardwareMap.get(DcMotor.class, "suspensionMotor");
         suspensionMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         suspensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT); // todo: figure out which value is best
         suspensionMotor.setDirection(DcMotor.Direction.FORWARD);
         suspensionMotor.setTargetPosition(LOW_HARDSTOP);
         suspensionMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        suspensionMotor.setPower(MAX_SPEED);
+        suspensionMotor.setPower(0);
 
         telemetry.addData("Slide motor position", "%7d", suspensionMotor.getCurrentPosition());
 
@@ -53,6 +53,7 @@ public class Suspension {
 
     /**
      * utilizes DcMotor.Runmode.RUN_TO_POSITION to set the motor's target
+     *
      * @param ticks the distance the motor must run to, measured in ticks
      */
     public void setPosition(int ticks) {
@@ -62,27 +63,20 @@ public class Suspension {
     private void readGamepad(Gamepad gamepad) {
 
         if (gamepad.left_bumper) {
+            suspensionMotor.setPower(MAX_SPEED);
             targetPositionCount = HANG_POSITION_UP;
         }
-        if(gamepad.right_bumper){
+        if (gamepad.right_bumper) {
+            suspensionMotor.setPower(MAX_SPEED);
             targetPositionCount = HANG_POSITION_DOWN;
         }
     }
 
     public void loop() {
         if (!isAutonomous) readGamepad(gamepad);
-        if (targetPositionCount == LOW_HARDSTOP && isAtTarget(50)) {
-            suspensionMotor.setPower(0);
-        } else {
-            suspensionMotor.setPower(MAX_SPEED);
-        }
         suspensionMotor.setTargetPosition(targetPositionCount);
         telemetry.addData("Suspension encoder position", suspensionMotor.getCurrentPosition());
+        telemetry.addData("Suspension power", suspensionMotor.getPower());
 
     }
-
-    public boolean isAtTarget(int tickThreshold) {
-        return Math.abs(suspensionMotor.getCurrentPosition() - targetPositionCount) <= tickThreshold;
-    }
-
 }
