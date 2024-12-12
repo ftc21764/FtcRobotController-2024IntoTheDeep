@@ -71,7 +71,18 @@ public class Suspension {
 
     public void loop() {
         if (!isAutonomous) readGamepad(gamepad);
+        if (targetPositionCount == LOW_HARDSTOP && isAtTarget(50)) {
+            suspensionMotor.setPower(0);
+        } else {
+            suspensionMotor.setPower(MAX_SPEED);
+        }
         suspensionMotor.setTargetPosition(targetPositionCount);
         telemetry.addData("Suspension encoder position", suspensionMotor.getCurrentPosition());
+
     }
+
+    public boolean isAtTarget(int tickThreshold) {
+        return Math.abs(suspensionMotor.getCurrentPosition() - targetPositionCount) <= tickThreshold;
+    }
+
 }

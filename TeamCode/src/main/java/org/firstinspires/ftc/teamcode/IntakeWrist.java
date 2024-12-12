@@ -77,7 +77,7 @@ public class IntakeWrist {
 
 
            wristMotor.setPower(MAX_SPEED);
-           while (!(wristMotor.getCurrentPosition() <= POSITION_TO_INTAKE) && wristTimer < 50) {
+           while (!(wristMotor.getCurrentPosition() <= POSITION_TO_INTAKE) && wristTimer < 3) {
                telemetry.addLine("In intake loop 2");
                telemetry.update();
                setPosition(POSITION_TO_INTAKE);
