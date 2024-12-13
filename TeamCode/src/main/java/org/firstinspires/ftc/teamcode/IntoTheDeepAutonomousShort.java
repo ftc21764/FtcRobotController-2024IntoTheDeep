@@ -267,6 +267,8 @@ public class IntoTheDeepAutonomousShort extends LinearOpMode {
         driveStraight(DRIVE_SPEED, -15, 0);
         turnToHeading(TURN_SPEED, -90);
         driveStraight(DRIVE_SPEED, 23, -90);
+        turnToHeading(TURN_SPEED, 180);
+        driveStraight(DRIVE_SPEED, 7, 180);
 
 
 
